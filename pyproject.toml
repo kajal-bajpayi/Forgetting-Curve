@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "forgetting-curve"
+version = "0.1.0"
+description = "A personal knowledge-retention app using spaced repetition."
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+
+dependencies = [
+    # Web API
+    "fastapi>=0.115,<1.0",
+    "uvicorn[standard]>=0.34,<1.0",
+
+    # Data validation and configuration
+    "pydantic>=2.10,<3.0",
+    "pydantic-settings>=2.7,<3.0",
+    "python-dotenv>=1.2.2,<2.0",
+    "email-validator>=2.2,<3.0",
+
+    # Database and migrations
+    "sqlalchemy>=2.0,<3.0",
+    "alembic>=1.14,<2.0",
+    "psycopg[binary]>=3.2,<4.0",
+
+    # Authentication and password security
+    "pwdlib[argon2]>=0.3,<0.4",
+    "PyJWT>=2.10,<3.0",
+
+    # Supports form-based authentication if needed
+    "python-multipart>=0.0.20,<1.0",
+]
+
+
+[project.optional-dependencies]
+dev = [
+    # Automated testing
+    "pytest>=8.3,<10.0",
+    "httpx>=0.28,<1.0",
+    "pytest-cov>=6.0,<8.0",
+
+    # Code quality
+    "ruff>=0.11,<1.0",
+]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
+
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+
+[tool.coverage.run]
+branch = true
+source = ["app"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+exclude = ["tests*", "migrations*"]
